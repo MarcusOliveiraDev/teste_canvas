@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>pintura canvas</title>
+        <style>
+            html {
+              font-family: sans-serif;
+            }
+            canvas {
+              background: #fff;
+              border: 1px dashed;
+            }
+            a {
+              display: inline-block;
+              background: #69c;
+              color: #fff;
+              padding: 5px 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <p>
+          Paint by holding down the mouse button and moving it.
+          <a href="" download="my_painting.png">Download my painting</a>
+        </p>
+        
+        <canvas width="300" height="300"></canvas>
+
+        <script>
+            const canvas = document.querySelector("canvas");
+            const c = canvas.getContext("2d");
+            c.fillStyle = "hotpink";
+            
+            function draw(x, y) {
+              if (isDrawing) {
+                c.beginPath();
+                c.arc(x, y, 10, 0, Math.PI * 2);
+                c.closePath();
+                c.fill();
+              }
+            }
+            
+            canvas.addEventListener("mousemove", (event) =>
+              draw(event.offsetX, event.offsetY)
+            );
+            canvas.addEventListener("mousedown", () => (isDrawing = true));
+            canvas.addEventListener("mouseup", () => (isDrawing = false));
+            
+            document
+              .querySelector("a")
+              .addEventListener(
+                "click",
+                (event) => (event.target.href = canvas.toDataURL())
+              );
+        </script>
+        
+    </body>
+</html>
